@@ -5,7 +5,7 @@ docker build -t mysql:1.0 .
 ```
 2. Run container from the image to test
 ```bash
-docker run --name app -p 3306:3306 -e MYSQL_ROOT_PASSWORD="test@2024" mysql:1.0
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD="test@2024" mysql:1.0
 ```
 3. Delete the container
 ```bash
