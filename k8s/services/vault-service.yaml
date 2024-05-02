@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: vault-service
+  namespace: development
+
+spec:
+  type: LoadBalancer
+  selector:
+    component: vault
+  ports:
+    - name: "http"
+      port: 8200
+      targetPort: 8200
+      nodePort: 32727
