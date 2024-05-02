@@ -1,0 +1,16 @@
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - secrets/mysql-secret.yaml
+  - volumes/mysql-pv.yaml
+  - volumes/mysql-pvc.yaml
+  - deployments/mysql-deployment.yaml
+  - services/mysql-service.yaml
+
+  - deployments/app-deployment.yaml
+  - services/app-load-balancer.yaml
+  - autoscaler/app-hpa.yaml
+
+  - deployments/web-deployment.yaml
+  - services/web-service.yaml

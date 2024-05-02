@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-deployment
+  namespace: development
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: nginx
+  template:
+    metadata:
+      labels:
+        component: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: aymanazzam63/web:1.0
+        # imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+            - name: app_host
+              value: $(APP_SERVICE_SERVICE_HOST)
+            - name: app_port
+              value: $(APP_SERVICE_SERVICE_PORT)
