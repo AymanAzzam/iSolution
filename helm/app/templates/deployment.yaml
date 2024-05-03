@@ -34,16 +34,6 @@ spec:
               value: $(MYSQL_SERVICE_SERVICE_HOST)
             - name: DB_PORT
               value: $(MYSQL_SERVICE_SERVICE_PORT)
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
           resources:
             limits:
               cpu: 500m

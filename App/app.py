@@ -1,13 +1,12 @@
 from flask import Flask, request, render_template
 from flask.logging import create_logger
 import os
+import hvac
 import logging
 import mysql.connector
 
-host = os.environ['DB_HOST']
-port = os.environ['DB_PORT']
-user = os.environ['DB_USERNAME']
-password = os.environ['DB_PASSWORD']
+vault_url = os.environ['VAULT_ADDR']
+vault_token = os.environ['VAULT_TOKEN']
 
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -45,7 +44,15 @@ def result():
 if __name__ == "__main__":
     app.run(debug=True)
 
-    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, user)
-    db = mysql.connector.connect(user=user, password=password, host=host, port=port)
+    # Hashicorp Authentication
+    client = hvac.Client(url=vault_url, token=vault_token,)
+
+    # Reading secrets
+    read_response = client.secrets.kv.read_secret_version(path='db')
+    username = read_response['data']['data']['username']
+    password = read_response['data']['data']['password']
+    
+    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, username)
+    db = mysql.connector.connect(user=username, password=password, host=host, port=port)
     LOG.info(db)
     db.close()

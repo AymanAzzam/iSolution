@@ -5,7 +5,7 @@ docker build -t app:1.0 .
 ```
 2. Run container from the image to test
 ```bash
-docker run --name app -p 80:8080 -e DB_HOST="test" -e DB_PORT="8888" -e DB_USERNAME="test" -e DB_PASSWORD="test" app:1.0
+docker run --name app -p 80:8080 -e DB_HOST="test" -e DB_PORT="8888" -e VAULT_ADDR="http://127.0.0.1:8200" -e VAULT_TOKEN="test" app:1.0
 ```
 3. Delete the container
 ```bash
