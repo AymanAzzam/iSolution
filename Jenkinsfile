@@ -13,7 +13,7 @@ pipeline {
         stage('Building the image') {
             steps{
                 dir('./App/'){
-                    powershell "docker system prune -a"
+                    powershell "docker system prune -af"
                     script {
                         dockerImage = docker.build(registry + ":${params.IMAGE_TAG}")
                     }
