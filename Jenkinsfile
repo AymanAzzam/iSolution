@@ -32,10 +32,10 @@ pipeline {
             steps{
                 dir('./helm/app'){
                     script {
-                        env.DB_USERNAME = powershell(vault kv get -mount=secret -field=username db)
+                        env.DB_USERNAME = powershell(returnStatus: true, script: "vault kv get -mount=secret -field=username db")
                     }
                     script {
-                        env.DB_PASSWORD = powershell(vault kv get -mount=secret -field=password db)
+                        env.DB_PASSWORD = powershell(returnStatus: true, script: "vault kv get -mount=secret -field=password db")
                     }
                     powershell "kubectl config set-context minikube --namespace=development"
                     powershell "helm upgrade --set imageTag=${params.IMAGE_TAG} --set dbUsername=$env:DB_USERNAME --set dbPassword=$env:DB_PASSWORD app ."
