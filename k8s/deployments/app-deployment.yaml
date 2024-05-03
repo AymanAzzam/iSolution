@@ -28,10 +28,6 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            - name: DB_HOST
-              value: $(MYSQL_SERVICE_SERVICE_HOST)
-            - name: DB_PORT
-              value: $(MYSQL_SERVICE_SERVICE_PORT)
             - name: VAULT_ADDR
               value: "http://$(VAULT_SERVICE_SERVICE_HOST):$(VAULT_SERVICE_SERVICE_PORT)"
             - name: VAULT_TOKEN
@@ -39,6 +35,10 @@ spec:
                 secretKeyRef:
                   name: vault-secret
                   key: password
+            - name: DB_HOST
+              value: $(MYSQL_SERVICE_SERVICE_HOST)
+            - name: DB_PORT
+              value: $(MYSQL_SERVICE_SERVICE_PORT)
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
