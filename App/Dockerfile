@@ -9,8 +9,8 @@ Workdir /app
 Copy . /app
 
 ## Step 3:
-# Update linux packages
-Run apt-get update
+# Install Vault CLI
+Run /app/install-vault.sh
 
 ## Step 4:
 # Install packages from requirements.txt
