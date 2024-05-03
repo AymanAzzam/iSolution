@@ -35,15 +35,9 @@ spec:
             - name: DB_PORT
               value: $(MYSQL_SERVICE_SERVICE_PORT)
             - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: username
+              value: {{ .Values.dbUserName }}
             - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
+              value: {{ .Values.dbPassword }}
           resources:
             limits:
               cpu: 500m
