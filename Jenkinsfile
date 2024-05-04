@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Building the image') {
             steps{
-                dir('./App/'){
+                dir('./docker/App/'){
                     script {
                         dockerImage = docker.build(registry + ":${params.IMAGE_TAG}")
                     }
