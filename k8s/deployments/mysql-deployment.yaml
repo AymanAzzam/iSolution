@@ -20,6 +20,13 @@ spec:
       - image: aymanazzam63/mysql:1.0
         name: mysql
         env:
+        - name: VAULT_ADDR
+          value: "http://$(VAULT_SERVICE_SERVICE_HOST):$(VAULT_SERVICE_SERVICE_PORT)"
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: vault-secret
+              key: password
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
