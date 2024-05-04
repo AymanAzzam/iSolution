@@ -9,6 +9,7 @@ minikube addons enable metrics-server
 minikube addons list
 ```
 3. Deploy The cluster
+Replace <vault-root-password> and <database-root-password> in secrets with the needed values
 ```bash
 kubectl apply -k .
 ```
