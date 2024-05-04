@@ -11,6 +11,8 @@ vault_token = os.environ['VAULT_TOKEN']
 app = Flask(__name__)
 LOG = create_logger(app)
 LOG.setLevel(logging.INFO)
+# Hashicorp Authentication
+client = hvac.Client(url=vault_url, token=vault_token,)
 
 
 @app.route('/')
@@ -20,6 +22,16 @@ def welcome():
 
 @app.route('/', methods=['POST'])
 def result():
+    # Reading secrets
+    read_response = client.secrets.kv.read_secret_version(path='db')
+    username = read_response['data']['data']['username']
+    password = read_response['data']['data']['password']
+    
+    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, username)
+    db = mysql.connector.connect(user=username, password=password, host=host, port=port)
+    LOG.info(db)
+    db.close()
+    
     x = request.form.get("x", type=int, default=0)
     y = request.form.get("y", type=int, default=0)
     operation = request.form.get("operation")
@@ -43,16 +55,3 @@ def result():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    # Hashicorp Authentication
-    client = hvac.Client(url=vault_url, token=vault_token,)
-
-    # Reading secrets
-    read_response = client.secrets.kv.read_secret_version(path='db')
-    username = read_response['data']['data']['username']
-    password = read_response['data']['data']['password']
-    
-    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, username)
-    db = mysql.connector.connect(user=username, password=password, host=host, port=port)
-    LOG.info(db)
-    db.close()
