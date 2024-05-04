@@ -29,7 +29,7 @@ def result():
     username = read_response['data']['data']['username']
     password = read_response['data']['data']['password']
     
-    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, username)
+    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", db_host, db_port, username)
     db = mysql.connector.connect(user=username, password=password, host=db_host, port=db_port)
     LOG.info(db)
     db.close()
