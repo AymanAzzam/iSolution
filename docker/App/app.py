@@ -29,7 +29,7 @@ def test_db():
         LOG.info(db)
         db.close()
     except:
-        result = "Could not connect to database"
+        result = "Failed"
     return result
 
 @app.route('/')
