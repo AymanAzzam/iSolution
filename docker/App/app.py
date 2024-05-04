@@ -16,6 +16,21 @@ LOG.setLevel(logging.INFO)
 # Hashicorp Authentication
 client = hvac.Client(url=vault_url, token=vault_token,)
 
+def test_db():
+    result = ""
+    try:
+        # Reading secrets
+        read_response = client.secrets.kv.read_secret_version(path='db')
+        username = read_response['data']['data']['username']
+        password = read_response['data']['data']['password']
+        
+        LOG.info("db-host = %s, db-port = %s, db-user = %s\n", db_host, db_port, username)
+        db = mysql.connector.connect(user=username, password=password, host=db_host, port=db_port)
+        LOG.info(db)
+        db.close()
+    except:
+        result = "Could not connect to database"
+    return result
 
 @app.route('/')
 def welcome():
@@ -24,16 +39,10 @@ def welcome():
 
 @app.route('/', methods=['POST'])
 def result():
-    # Reading secrets
-    read_response = client.secrets.kv.read_secret_version(path='db')
-    username = read_response['data']['data']['username']
-    password = read_response['data']['data']['password']
-    
-    LOG.info("db-host = %s, db-port = %s, db-user = %s\n", db_host, db_port, username)
-    db = mysql.connector.connect(user=username, password=password, host=db_host, port=db_port)
-    LOG.info(db)
-    db.close()
-    
+    test = test_db()
+    if test:
+        return render_template('form.html', entry=test)
+
     x = request.form.get("x", type=int, default=0)
     y = request.form.get("y", type=int, default=0)
     operation = request.form.get("operation")
@@ -51,7 +60,6 @@ def result():
         	result = x / y
     else:
         result = 0
-    result
     return render_template('form.html', entry=result)
 
 
