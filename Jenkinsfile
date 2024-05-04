@@ -1,19 +1,30 @@
 pipeline {
     environment {
         registry = "aymanazzam63/app"
-        KUBECONFIG = credentials('k8s_config')
+        registryCredential = 'dockerhub_user'
+        dockerImage = ''
     }
     agent any
-    parameters {
-        string(name: 'IMAGE_TAG', defaultValue: '1.0', description: 'Image tag like 1.0 or 2.0, ...etc')
-    }
     stages {
-        stage('Deploy the image into the cluster deployment') {
+        stage('Building the image') {
             steps{
-                dir('./helm/app'){
-                    powershell "kubectl config set-context minikube --namespace=development"
-                    powershell "helm upgrade --set imageTag=${params.IMAGE_TAG} app ."
+                script {
+                    dockerImage = docker.build(registry + ":" + currentBuild.number)
                 }
+            }
+        }
+        stage('Upload the image to docker hub') {
+            steps{
+                script {
+                        docker.withRegistry('', registryCredential ) {
+                            dockerImage.push()
+                        }
+                }
+            }
+        }
+        stage('Invoke deployment pipeline') {
+            steps{
+                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: "${currentBuild.number}")], wait: false
             }
         }
     }

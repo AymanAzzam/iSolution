@@ -1,14 +1,19 @@
-# iSolution
-This project to deploy a Kubernetes cluster on GCP. And automate app deployment using Jenkins and Helm.
-
-1. [Build/Test App Image](docker/App/README.md)
-2. [Build Nginx Image](docker/database/README.md)
-3. [Build Mysql Image](docker/web/README.md)
-4. [Build/Test Kubernetes](k8s/README.md)
-5. [Helm Chart of App deployment](helm/README.md)
-
-## Architecture
-![Alt text](Architecture.png)
-
-## Jnekins Pipeline
-![Alt text](Pipeline.png)
+# Build/Test App Image
+1. Build the image
+```bash
+docker build -t app:1.0 .
+```
+2. Run container from the image to test
+```bash
+docker run --name app -p 80:8080 -e DB_HOST="test" -e DB_PORT="8888" -e VAULT_ADDR="http://127.0.0.1:8200" -e VAULT_TOKEN="test" app:1.0
+```
+3. Delete the container
+```bash
+docker rm $(docker stop $(docker ps -a --filter ancestor=app:1.0 -q ))
+```
+4. Push the image to docker hub
+```bash
+docker login
+docker tag app:1.0 <docker-hub-username>/app:1.0
+docker push <docker-hub-username>/app:1.0
+```
