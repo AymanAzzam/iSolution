@@ -5,9 +5,6 @@ pipeline {
         dockerImage = ''
     }
     agent any
-    parameters {
-        string(name: 'IMAGE_TAG', defaultValue: '1.0', description: 'Image tag like 1.0 or 2.0, ...etc')
-    }
     stages {
         stage('Building the image') {
             steps{
@@ -29,7 +26,7 @@ pipeline {
         }
         stage('Invoke deployment pipeline') {
             steps{
-                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: currentBuild.number)]
+                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: "${currentBuild.number}")]
             }
         }
     }
