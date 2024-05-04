@@ -35,4 +35,4 @@ override.tf.json
 terraform.rc
 
 *cache*
-*secret*
+k8s/secrets/*
