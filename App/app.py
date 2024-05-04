@@ -7,6 +7,8 @@ import mysql.connector
 
 vault_url = os.environ['VAULT_ADDR']
 vault_token = os.environ['VAULT_TOKEN']
+db_host = os.environ['DB_HOST']
+db_port = os.environ['DB_PORT']
 
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -28,7 +30,7 @@ def result():
     password = read_response['data']['data']['password']
     
     LOG.info("db-host = %s, db-port = %s, db-user = %s\n", host, port, username)
-    db = mysql.connector.connect(user=username, password=password, host=host, port=port)
+    db = mysql.connector.connect(user=username, password=password, host=db_host, port=db_port)
     LOG.info(db)
     db.close()
     
