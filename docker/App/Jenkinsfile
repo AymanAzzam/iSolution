@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Invoke deployment pipeline') {
             steps{
-                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: ${currentBuild.number})]
+                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: currentBuild.number)]
             }
         }
     }
