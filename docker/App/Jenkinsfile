@@ -13,7 +13,7 @@ pipeline {
             steps{
                 dir('./docker/App/'){
                     script {
-                        dockerImage = docker.build(registry + ":${params.IMAGE_TAG}")
+                        dockerImage = docker.build(registry + ":" + currentBuild.number)
                     }
                 }
             }
@@ -25,6 +25,11 @@ pipeline {
                             dockerImage.push()
                         }
                 }
+            }
+        }
+        stage('Invoke deployment pipeline') {
+            steps{
+                build job: 'isolution - Deployment', parameters: [string(name: 'IMAGE_TAG', value: ${currentBuild.number})]
             }
         }
     }
