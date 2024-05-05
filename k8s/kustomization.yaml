@@ -4,6 +4,7 @@ resources:
   - namespaces/development.yaml
   - namespaces/monitoring.yaml
 
+  - secrets/vault-secret.yaml
   - secrets/mysql-secret.yaml
   - volumes/mysql-pv.yaml
   - volumes/mysql-pvc.yaml
@@ -17,7 +18,6 @@ resources:
   - deployments/web-deployment.yaml
   - services/web-service.yaml
 
-  - secrets/vault-secret.yaml
   - deployments/vault-deployment.yaml
   - services/vault-service.yaml
 
