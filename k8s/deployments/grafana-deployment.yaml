@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: grafana
+  namespace: monitoring
+
+spec:
+  selector:
+    matchLabels:
+      component: grafana
+  template:
+    metadata:
+      labels:
+        component: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http-grafana
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 250m
+              memory: 750Mi
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-pv
+      volumes:
+        - name: grafana-pv
+          persistentVolumeClaim:
+            claimName: grafana-pvc
