@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: prometheus
+  namespace: monitoring
+
+spec:
+  selector:
+    matchLabels:
+      component: prometheus
+  template:
+    metadata:
+      labels:
+        component: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: aymanazzam63/prometheus:1.0
+          # imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+              name: http-prometheus
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 250m
+              memory: 750Mi
+          livenessProbe:
+            tcpSocket:
+              port: 9090

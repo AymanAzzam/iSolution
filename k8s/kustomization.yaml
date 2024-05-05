@@ -21,6 +21,9 @@ resources:
   - deployments/vault-deployment.yaml
   - services/vault-service.yaml
 
+  - deployments/prometheus-deployment.yaml
+  - services/prometheus-service.yaml
+
   - volumes/grafana-pvc.yaml
   - deployments/grafana-deployment.yaml
   - services/grafana-service.yaml
