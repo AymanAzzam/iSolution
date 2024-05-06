@@ -6,7 +6,6 @@ metadata:
   namespace: development
 
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:

@@ -16,6 +16,8 @@ spec:
       labels:
         component: mysql
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
       - image: aymanazzam63/mysql:1.0
         name: mysql
