@@ -14,14 +14,6 @@ module "vpc" {
             subnet_flow_logs      = "true"
             description           = "This is a public subnet"
         },
-        {
-            subnet_name           = "private-subnet-1"
-            subnet_ip             = "10.10.20.0/24"
-            subnet_region         = var.region
-            subnet_private_access = "true"
-            subnet_flow_logs      = "true"
-            description           = "This is a private subnet"
-        }
     ]
 
     secondary_ranges = {
@@ -40,14 +32,6 @@ module "vpc" {
             destination_range      = "0.0.0.0/0"
             tags                   = "egress-inet"
             next_hop_internet      = "true"
-        },
-        {
-            name                   = "app-proxy"
-            description            = "route through proxy to reach app"
-            destination_range      = "10.50.10.0/24"
-            tags                   = "app-proxy"
-            next_hop_instance      = "app-proxy-instance"
-            next_hop_instance_zone = "us-west1-a"
-        },
+        }
     ]
 }
