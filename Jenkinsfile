@@ -11,6 +11,7 @@ pipeline {
         stage('Deploy the image into the cluster deployment') {
             steps{
                 dir('./helm/app'){
+                    powershell "gcloud components install gke-gcloud-auth-plugin"
                     powershell "kubectl config set-context minikube --namespace=development"
                     powershell "helm upgrade --set imageTag=${params.IMAGE_TAG} app ."
                 }
