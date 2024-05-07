@@ -6,7 +6,6 @@ resources:
 
   - secrets/vault-secret.yaml
   - secrets/mysql-secret.yaml
-  # - volumes/mysql-pv.yaml
   - volumes/mysql-pvc.yaml
   - deployments/mysql-deployment.yaml
   - services/mysql-service.yaml
