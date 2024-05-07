@@ -6,8 +6,9 @@ metadata:
   namespace: development
 
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 1Gi

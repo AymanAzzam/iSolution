@@ -12,6 +12,7 @@ module "gke" {
   project_id                 = var.gcp-project
   name                       = "gke-test-1"
   region                     = var.region
+  zones                      = ["${var.region}-a", "${var.region}-b"]
   network                    = module.vpc.network_name
   subnetwork                 = "public-subnet-1"
   ip_range_pods              = ""
@@ -20,5 +21,17 @@ module "gke" {
   network_policy             = false
   horizontal_pod_autoscaling = true
   filestore_csi_driver       = false
-  # service_account           = "project-service-account@${var.gcp-project}.iam.gserviceaccount.com"
+  deletion_protection        = false
+
+  node_pools = [
+    {
+      name                      = "default-node-pool"
+      machine_type              = "e2-medium"
+      min_count                 = 2
+      max_count                 = 4
+      initial_node_count        = 2
+      local_ssd_count           = 0
+    },
+  ]
+
 }
