@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: aymanazzam63/prometheus:1.3
+          image: aymanazzam63/prometheus:1.5
           command: ["sleep", "infinity"]
           # imagePullPolicy: IfNotPresent
           ports:
