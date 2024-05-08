@@ -12,7 +12,7 @@ This project to deploy a Kubernetes cluster on GCP. And automate app deployment 
 ## Architecture
 ![Alt text](Architecture.png)
 
-## Jnekins Pipelines
+## Jenkins Pipelines
 1. [Build App pipeline](docker/App/Jenkinsfile)
 2. [Deploy new App pipeline](Jenkinsfile)
 
